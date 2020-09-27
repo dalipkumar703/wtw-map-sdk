@@ -29,6 +29,7 @@ const App = () => {
       
         const result = await getLocationDetailByGeoCodes(position[0], position[1]);
         if (!result.err && result.name && result.display_name) {
+          console.log("fetched data", result)
           map.set(`${position[0]}_${position[1]}`, result);
         } else {
           console.log("error fetching details");
