@@ -1,5 +1,6 @@
 import axios from 'axios';
 export const getLocationDetailByGeoCodes = (lat, long) => {
+    console.log("hitting getLocationDetails fun", lat, long)
     try {
         //open street map api for reverse coding
         const result = axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${long}`, {headers: {

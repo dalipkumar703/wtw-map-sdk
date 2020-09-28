@@ -26,7 +26,7 @@ const App = () => {
       });
     }
     forEach(sustainableShopsConstant, async (position) => {
-      
+        console.log("hitting position", position);
         const result = await getLocationDetailByGeoCodes(position[0], position[1]);
         if (!result.err && result.name && result.display_name) {
           console.log("fetched data", result)
