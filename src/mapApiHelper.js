@@ -1,16 +1,27 @@
 import axios from 'axios';
-export const getLocationDetailByGeoCodes = (lat, long) => {
-    console.log("hitting getLocationDetails fun", lat, long)
-    try {
+
+const sleep = (ms) => {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+export const getLocationDetailByGeoCodes =  async (lat, long) => {
+
         //open street map api for reverse coding
-        const result = axios.get(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${long}`, {headers: {
-            "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Methods": "GET",
-        }})
-        return result;
-    } catch (error) {
-        console.log("error", error);
-        return { err : error};
-    }
-    
+        let url = 'https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat='+ lat + '&lon=' + long;
+    //    return setTimeout(getLocationDetail(url), 1000);
+    await sleep(1000);
+    const result =  await getLocationDetail(url);
+    console.log("result",result);
+    return result;
+}
+
+const getLocationDetail=  (url) => {
+    return axios.get(url, {
+        headers: {
+        'Access-Control-Allow-Origin': '*'
+    }}).then((result)=>{
+    return result.data;            
+
+    }).catch((error)=>{
+        return {err: error};
+    })
 }

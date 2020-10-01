@@ -1,12 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {Map as LeafMap, Marker, Popup, TileLayer } from 'react-leaflet'
-import {forEach} from 'lodash'
+import {forEach, findIndex} from 'lodash'
+import {Form, Row, Col, Container} from 'react-bootstrap'
+
 import recycleShopConstant from './recycleShopConstant'
 import sustainableShopsConstant from './sustainableShopConstant'
-import {Form, Row, Col, Container} from 'react-bootstrap'
 import recycleShopsConstants from './recycleShopConstant'
 import {getLocationDetailByGeoCodes} from './mapApiHelper';
-import { map } from 'leaflet'
 
  const centerPosition = [28.62709, 77.05001];
 
@@ -27,35 +27,46 @@ const App = () => {
     }
     forEach(sustainableShopsConstant, async (position) => {
         console.log("hitting position", position);
-        const result = await getLocationDetailByGeoCodes(position[0], position[1]);
-        if (!result.err && result.name && result.display_name) {
+        let keys = Object.keys(localStorage);
+        if (findIndex(keys, (key)=> key === `${position[0]}_${position[1]}`) < 0){
+          const result = await getLocationDetailByGeoCodes(position[0], position[1]);
+        console.log("result inapp",result);
+        if (result && result.name && result.display_name && !result.err) {
           console.log("fetched data", result)
-          map.set(`${position[0]}_${position[1]}`, result);
+          shopDetailsMap.set(`${position[0]}_${position[1]}`, result);
+          localStorage.setItem(`${position[0]}_${position[1]}`, JSON.stringify(result));
         } else {
           console.log("error fetching details");
       }
-     
+        }
+        
     })
    
   },[])
 
   const handleOnClickSustainbleShop = (event) =>{
     setSustainableShopEnable(event.target.checked)
-    (forEach(sustainableShopsConstant, (position) =>{
-      const shopDetail = shopDetailsMap.get(`${position[0]}_${position[1]}`)
-    markersForSustainableShops.push( <Marker position={position} >
-     <Popup>
-        <span>{shopDetail && shopDetail.name}</span>
-      <br/>
-        <span>{shopDetail && shopDetail.display_name}</span><br/>
-     </Popup>
-   </Marker>);
-   
-   }));
+  
   } 
   const handleOnClickRecycleShop = (event) => {
    setRecycleShopEnable(event.target.checked)
   }
+  (forEach(sustainableShopsConstant, (position) =>{
+    const shopDetail = localStorage.getItem(`${position[0]}_${position[1]}`)
+    let shopDetailParser;
+    if (shopDetail){
+      shopDetailParser = JSON.parse(shopDetail);
+      markersForSustainableShops.push(<Marker position={position} >
+        <Popup>
+           <span>{shopDetailParser && shopDetailParser.name}</span>
+         <br/>
+           <span>{shopDetailParser && shopDetailParser.display_name}</span><br/>
+        </Popup>
+      </Marker>);
+    }
+ 
+ 
+ }));
   (forEach(recycleShopConstant, (position) =>{
     markersForRecycleShops.push( <Marker position={position} >
      <Popup>
@@ -94,8 +105,8 @@ const App = () => {
         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
       />
-      {sustainableShopEnable && markersForSustainableShops}
       {recycleShopEnable && markersForRecycleShops}
+      {sustainableShopEnable && markersForSustainableShops}
     </LeafMap>
     </Container>
   )
