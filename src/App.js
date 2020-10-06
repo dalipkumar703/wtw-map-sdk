@@ -4,7 +4,7 @@ import {forEach, findIndex} from 'lodash'
 import {Form, Row, Col, Container} from 'react-bootstrap'
 
 import recycleShopConstant from './recycleShopConstant'
-import sustainableShopsConstant from './sustainableShopConstant'
+import {sustainableShopsConstant, getIcon} from './sustainableShopConstant'
 import recycleShopsConstants from './recycleShopConstant'
 import {getLocationDetailByGeoCodes} from './mapApiHelper';
 
@@ -17,6 +17,7 @@ const App = () => {
   let markersForRecycleShops = [];
   let markersForSustainableShops = [];
   const shopDetailsMap = new Map();
+
   useEffect(()=>{
     if ('geolocation' in navigator){
       navigator.geolocation.getCurrentPosition(function(position) {
@@ -28,13 +29,13 @@ const App = () => {
     forEach(sustainableShopsConstant, async (position) => {
         console.log("hitting position", position);
         let keys = Object.keys(localStorage);
-        if (findIndex(keys, (key)=> key === `${position[0]}_${position[1]}`) < 0){
+        if (findIndex(keys, (key)=> key === `${position[0][0]}_${position[0][1]}`) < 0){
           const result = await getLocationDetailByGeoCodes(position[0], position[1]);
         console.log("result inapp",result);
         if (result && result.name && result.display_name && !result.err) {
           console.log("fetched data", result)
-          shopDetailsMap.set(`${position[0]}_${position[1]}`, result);
-          localStorage.setItem(`${position[0]}_${position[1]}`, JSON.stringify(result));
+          shopDetailsMap.set(`${position[0][0]}_${position[0][1]}`, result);
+          localStorage.setItem(`${position[0][0]}_${position[0][1]}`, JSON.stringify(result));
         } else {
           console.log("error fetching details");
       }
@@ -47,16 +48,18 @@ const App = () => {
   const handleOnClickSustainbleShop = (event) =>{
     setSustainableShopEnable(event.target.checked)
   
-  } 
+  }
+
   const handleOnClickRecycleShop = (event) => {
    setRecycleShopEnable(event.target.checked)
   }
+
   (forEach(sustainableShopsConstant, (position) =>{
-    const shopDetail = localStorage.getItem(`${position[0]}_${position[1]}`)
+    const shopDetail = localStorage.getItem(`${position[0][0]}_${position[0][1]}`)
     let shopDetailParser;
     if (shopDetail){
       shopDetailParser = JSON.parse(shopDetail);
-      markersForSustainableShops.push(<Marker position={position} >
+      markersForSustainableShops.push(<Marker position={position[0]} icon={position[1][0]? getIcon(position[1][0]): ''}>
         <Popup>
            <span>{shopDetailParser && shopDetailParser.name}</span>
          <br/>
