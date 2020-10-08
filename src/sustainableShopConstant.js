@@ -3,7 +3,7 @@ import L from 'leaflet';
 export const ORGANIC_VEGETABLE = 'ORGANIC_VEGETABLE';
 export const ECO_FRIENDLY_PRODUCTS = 'ECO_FRIENDLY_PRODUCTS';
 export const ORGANIC_VEGETABLE_AND_NON_VEGETARIAN = 'ORGANIC_VEGETABLE_AND_NON_VEGETARIAN';
-export const SUSTAINABLE_PADS = 'SUSTIANABLE_PADS';
+export const SUSTAINABLE_PADS = 'SUSTAINABLE_PADS';
 export const organicVegetableIcon = new L.Icon({
     iconUrl: 'https://svgur.com/i/QJz.svg',
     iconRetinaUrl: 'https://svgur.com/i/QJz.svg',
@@ -17,6 +17,16 @@ export const organicVegetableIcon = new L.Icon({
 export const organicPadsIcon = new L.Icon({
     iconUrl: 'https://svgur.com/i/QHz.svg',
     iconRetinaUrl: 'https://svgur.com/i/QHz.svg',
+    iconAnchor: [5, 55],
+    popupAnchor: [10, -44],
+    iconSize: [35, 55],
+    // shadowUrl: 'https://i.imgur.com/hwcpF3I.pngg',
+    // shadowSize: [25, 55],
+    // shadowAnchor: [20, 92],
+  })
+  export const ecoFriendlyProductsIcon = new L.Icon({
+    iconUrl: 'https://svgur.com/i/QKk.svg',
+    iconRetinaUrl: 'https://svgur.com/i/QKk.svg',
     iconAnchor: [5, 55],
     popupAnchor: [10, -44],
     iconSize: [25, 55],
@@ -57,8 +67,12 @@ export const getIcon= (iconName) => {
 
         case SUSTAINABLE_PADS:
             return organicPadsIcon;
+
+        case ECO_FRIENDLY_PRODUCTS:
+            return ecoFriendlyProductsIcon;
+
         default:
-            return organicPadsIcon;
+            return organicVegetableIcon;
     }
 
 }

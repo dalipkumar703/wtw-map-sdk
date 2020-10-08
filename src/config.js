@@ -1,0 +1,1 @@
+export const PRODUCT_URL = process.env.NODE_ENV === 'production' ? 'https://waste-to-wonder.herokuapp.com/': 'http://localhost:5000/'

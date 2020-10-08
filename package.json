@@ -19,7 +19,8 @@
     "react-scripts": "3.4.3",
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
-    "serve": "^11.3.2"
+    "serve": "^11.3.2",
+    "uuid": "^8.3.1"
   },
   "scripts": {
     "start:local": "react-scripts start",
