@@ -70,9 +70,9 @@ const App = () => {
   (forEach(recycleShopConstant, (position) =>{
     markersForRecycleShops.push( <Marker position={position} >
      <Popup>
-        <span>ADDRESS:</span>
+        <span>Coming soon ...</span>
       <br/>
-        <span>BATTALION: </span><br/>
+        <span>Coming soon ...</span><br/>
      </Popup>
    </Marker>);
    

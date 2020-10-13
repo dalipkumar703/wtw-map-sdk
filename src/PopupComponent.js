@@ -34,8 +34,9 @@ return (
      
       <Row>
         
-        <Col><Button onClick={handleBuyProduct} variant="primary">Buy product</Button>
-     </Col><Col> <Button onClick={handleCheckOnGoogle} variant="primary">Check on Google</Button>
+        {/* <Col><Button onClick={handleBuyProduct} variant="primary" abse>Buy product</Button>
+     </Col> */}
+     <Col> <Button onClick={handleCheckOnGoogle} variant="primary">Check on Google</Button>
      </Col>
       
       </Row>
