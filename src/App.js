@@ -15,8 +15,8 @@ const App = () => {
   const [recycleShopEnable, setRecycleShopEnable] = useState(false);
   const [sustainableShopEnable, setSustainableShopEnable] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(null);
+  const [markersForSustainableShops, setMarkersForSustainableShops] = useState(null);
   let markersForRecycleShops = [];
-  let markersForSustainableShops = [];
   const shopDetailsMap = new Map();
 
   useEffect(()=>{
@@ -47,6 +47,19 @@ const App = () => {
   },[])
 
   const handleOnClickSustainbleShop = (event) =>{
+    let temp = [];
+    (forEach(sustainableShopsConstant, (position) =>{
+      const shopDetail = localStorage.getItem(`${position[0][0]}_${position[0][1]}`);
+      let shopDetailParser;
+      if (shopDetail){
+        shopDetailParser = JSON.parse(shopDetail);
+        temp.push(<Marker position={position[0]} icon={position[1][0]? getIcon(position[1][0]): ''}>
+         <PopupComponent shopDetailParser={shopDetailParser} />
+        </Marker>);
+      }
+   
+   }));
+   setMarkersForSustainableShops(temp);
     setSustainableShopEnable(event.target.checked)
   
   }
@@ -55,18 +68,6 @@ const App = () => {
    setRecycleShopEnable(event.target.checked)
   }
 
-  (forEach(sustainableShopsConstant, (position) =>{
-    const shopDetail = localStorage.getItem(`${position[0][0]}_${position[0][1]}`)
-    let shopDetailParser;
-    if (shopDetail){
-      shopDetailParser = JSON.parse(shopDetail);
-      markersForSustainableShops.push(<Marker position={position[0]} icon={position[1][0]? getIcon(position[1][0]): ''}>
-       <PopupComponent shopDetailParser={shopDetailParser} />
-      </Marker>);
-    }
- 
- 
- }));
   (forEach(recycleShopConstant, (position) =>{
     markersForRecycleShops.push( <Marker position={position} >
      <Popup>
