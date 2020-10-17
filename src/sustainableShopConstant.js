@@ -5,6 +5,7 @@ export const ECO_FRIENDLY_PRODUCTS = 'ECO_FRIENDLY_PRODUCTS';
 export const ORGANIC_VEGETABLE_AND_NON_VEGETARIAN = 'ORGANIC_VEGETABLE_AND_NON_VEGETARIAN';
 export const SUSTAINABLE_PADS = 'SUSTAINABLE_PADS';
 export const ELECTRIC_CAR = 'ELECTRIC_CAR';
+export const ORGANIC_COSMETICS = 'ORGANIC_COSMETICS'
 
 export const organicVegetableIcon = new L.Icon({
     iconUrl: 'https://svgur.com/i/QJz.svg',
@@ -48,6 +49,17 @@ export const organicPadsIcon = new L.Icon({
     // shadowAnchor: [20, 92],
   })
 
+  export const sustainableCosmeticsIcon = new L.Icon({
+    iconUrl: 'https://svgur.com/i/Qei.svg',
+    iconRetinaUrl: 'https://svgur.com/i/Qei.svg',
+    iconAnchor: [5, 55],
+    popupAnchor: [10, -44],
+    iconSize: [25, 55],
+    // shadowUrl: 'https://i.imgur.com/hwcpF3I.pngg',
+    // shadowSize: [25, 55],
+    // shadowAnchor: [20, 92],
+  })
+
  export const sustainableShopsConstant = [
     [[12.95826, 77.70677],['ECO_FRIENDLY_PRODUCTS']],
     [[28.46716, 77.08181],['ORGANIC_VEGETABLE']],
@@ -70,7 +82,19 @@ export const organicPadsIcon = new L.Icon({
 [[28.58811,77.31422], ['ELECTRIC_CAR']],
 [[28.61007,77.06401], ['ELECTRIC_CAR']],
 [[28.56401,77.18859], ['ELECTRIC_CAR']],
-[[28.69829,77.12082],['ELECTRIC_CAR']]
+[[28.69829,77.12082],['ELECTRIC_CAR']],
+[[28.45204,77.06882], ['ORGANIC_COSMETICS']],
+[[28.43714,77.00579], ['ECO_FRIENDLY_PRODUCTS']],
+[[28.47570,77.06202], ['ORGANIC_COSMETICS']],
+[[28.43419,77.10662], ['ORGANIC_COSMETICS']],
+[[28.70295,77.15584], ['ORGANIC_COSMETICS']],
+[[28.71183,77.11410], ['ORGANIC_COSMETICS']],
+[[28.60016,77.22744], ['ORGANIC_COSMETICS']],
+[[28.64581,77.12111], ['ORGANIC_COSMETICS']],
+[[28.72468,77.15184], ['ORGANIC_COSMETICS']],
+[[28.49320,77.09215], ['ORGANIC_COSMETICS']],
+[[28.54137,77.15474], ['ORGANIC_COSMETICS']],
+
 // [28.59147,77.06482],
 // [28.62116,77.21092],
 // [28.68944,77.17788],
@@ -96,6 +120,9 @@ export const getIcon= (iconName) => {
 
         case ELECTRIC_CAR: 
             return electricCarIcon;
+        
+        case ORGANIC_COSMETICS:
+            return sustainableCosmeticsIcon;
             
         default:
             return organicVegetableIcon;
