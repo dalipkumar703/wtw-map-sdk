@@ -6,6 +6,7 @@ export const ORGANIC_VEGETABLE_AND_NON_VEGETARIAN = 'ORGANIC_VEGETABLE_AND_NON_V
 export const SUSTAINABLE_PADS = 'SUSTAINABLE_PADS';
 export const ELECTRIC_CAR = 'ELECTRIC_CAR';
 export const ORGANIC_COSMETICS = 'ORGANIC_COSMETICS'
+export const ORGANIC_MEAT = 'ORGANIC_MEAT'
 
 export const organicVegetableIcon = new L.Icon({
     iconUrl: 'https://svgur.com/i/QJz.svg',
@@ -17,7 +18,18 @@ export const organicVegetableIcon = new L.Icon({
     // shadowSize: [25, 55],
     // shadowAnchor: [20, 92],
   })
-export const organicPadsIcon = new L.Icon({
+  
+  export const plantMeatIcon = new L.Icon({
+    iconUrl: 'https://svgur.com/i/R2S.svg',
+    iconRetinaUrl: 'https://svgur.com/i/R2S.svg',
+    iconAnchor: [5, 55],
+    popupAnchor: [10, -44],
+    iconSize: [35, 55],
+    // shadowUrl: 'https://i.imgur.com/hwcpF3I.pngg',
+    // shadowSize: [25, 55],
+    // shadowAnchor: [20, 92],
+  })
+  export const organicPadsIcon = new L.Icon({
     iconUrl: 'https://svgur.com/i/QHz.svg',
     iconRetinaUrl: 'https://svgur.com/i/QHz.svg',
     iconAnchor: [5, 55],
@@ -133,6 +145,9 @@ export const getIcon= (iconName) => {
         
         case ORGANIC_COSMETICS:
             return sustainableCosmeticsIcon;
+
+        case ORGANIC_MEAT:
+            return plantMeatIcon;
             
         default:
             return organicVegetableIcon;
