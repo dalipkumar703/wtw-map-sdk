@@ -7,6 +7,7 @@ export const SUSTAINABLE_PADS = 'SUSTAINABLE_PADS';
 export const ELECTRIC_CAR = 'ELECTRIC_CAR';
 export const ORGANIC_COSMETICS = 'ORGANIC_COSMETICS'
 export const ORGANIC_MEAT = 'ORGANIC_MEAT'
+export const GREEN_GIFT = 'GREEN_GIFT'
 
 export const organicVegetableIcon = new L.Icon({
     iconUrl: 'https://svgur.com/i/QJz.svg',
@@ -72,6 +73,16 @@ export const organicVegetableIcon = new L.Icon({
     // shadowAnchor: [20, 92],
   })
 
+  export const sustainableGiftIcon = new L.Icon({
+    iconUrl: 'https://svgur.com/i/R7a.svg',
+    iconRetinaUrl: 'https://svgur.com/i/R7a.svg',
+    iconAnchor: [5, 55],
+    popupAnchor: [10, -44],
+    iconSize: [25, 55],
+    // shadowUrl: 'https://i.imgur.com/hwcpF3I.pngg',
+    // shadowSize: [25, 55],
+    // shadowAnchor: [20, 92],
+  })
  export const sustainableShopsConstant = [
     [[12.95826, 77.70677],['ECO_FRIENDLY_PRODUCTS']],
     [[28.46716, 77.08181],['ORGANIC_VEGETABLE']],
@@ -116,7 +127,14 @@ export const organicVegetableIcon = new L.Icon({
  [[28.60045,77.22739], ['ORGANIC_FOOD']],
  [[28.50112,77.21524], ['ORGANIC_VEGETABLE']],
  [[28.52500,77.27631], ['ORGANIC_MEAT']],
- [[28.68967,77.29868], ['ORGANIC_MEAT']]
+ [[28.68967,77.29868], ['ORGANIC_MEAT']],
+ [[28.67510,77.31228], ['GREEN_GIFT']],
+ [[28.54692,77.35341], ['GREEN_GIFT']],
+ [[28.53400,77.20947], ['ECO_FRIENDLY_PRODUCTS']],
+ [[28.37680,76.92365], ['ECO_FRIENDLY_PRODUCTS']],
+ [[28.57341,77.23563], ['GREEN_GIFT']],
+ [[28.55670,77.23348], ['ECO_FRIENDLY_PRODUCTS']],
+ [[28.46732,77.08169], ['ECO_FRIENDLY_PRODUCTS']],
 // [28.59147,77.06482],
 // [28.62116,77.21092],
 // [28.68944,77.17788],
@@ -148,6 +166,9 @@ export const getIcon= (iconName) => {
 
         case ORGANIC_MEAT:
             return plantMeatIcon;
+        
+        case GREEN_GIFT:
+          return sustainableGiftIcon;
             
         default:
             return organicVegetableIcon;
