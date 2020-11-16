@@ -1,4 +1,5 @@
 import L from 'leaflet';
+import {filter} from 'lodash';
 
 export const ORGANIC_VEGETABLE = 'ORGANIC_VEGETABLE';
 export const ECO_FRIENDLY_PRODUCTS = 'ECO_FRIENDLY_PRODUCTS';
@@ -173,5 +174,12 @@ export const getIcon= (iconName) => {
         default:
             return organicVegetableIcon;
     }
+
+}
+
+export const filterShopsByType = (type) => {
+ return filter(sustainableShopsConstant, (shop) => {
+    return shop[1][0] === type;
+  })
 
 }
