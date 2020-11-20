@@ -112,13 +112,10 @@ const searchListComponent = (
       });
     }
     forEach(sustainableShopsConstant, async (position) => {
-        console.log("hitting position", position);
         let keys = Object.keys(localStorage);
         if (findIndex(keys, (key)=> key === `${position[0][0]}_${position[0][1]}`) < 0){
           const result = await getLocationDetailByGeoCodes(position[0][0], position[0][1]);
-        console.log("result inapp",result);
         if (result && result.name && result.display_name && !result.err) {
-          console.log("fetched data", result)
           shopDetailsMap.set(`${position[0][0]}_${position[0][1]}`, result);
           localStorage.setItem(`${position[0][0]}_${position[0][1]}`, JSON.stringify(result));
         } else {
@@ -203,12 +200,9 @@ const searchListComponent = (
         const geodata = filterShopsByType(e.target.id);
         const searchList = [];
 
-        console.log("geodata:",geodata);
         forEach(geodata, (geoCoordinate) => {
-          console.log("data:", localStorage.getItem(`${geoCoordinate[0][0]}_${geoCoordinate[0][1]}`))
           const result = JSON.parse(localStorage.getItem(`${geoCoordinate[0][0]}_${geoCoordinate[0][1]}`));
           if (result){
-            console.log("data result:",result)
             searchList.push(<ListItem key={uniqueId()} id={e.target.id}>{`${result.display_name}`}</ListItem>)
           }
         })
