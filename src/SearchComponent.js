@@ -49,6 +49,20 @@ const SearchComponent = ({onClick, isVisible}) => {
     <p>Plant meat</p>
   </Col>
     </Row>
+    <Row>
+    <Col xs={3} md={4}>
+    {' '}
+    <a  onClick={onClick}>   <Image src="https://svgur.com/i/RfN.svg" id="ORGANIC_ICECREAM" height="60px" width="60px" fluid /></a>
+    <br></br>
+    <p>Icecream</p>
+  </Col>
+  <Col xs={3} md={4}>
+    {' '}
+    <a  onClick={onClick}>   <Image src="https://svgur.com/i/Reb.svg" id="ORGANIC_FASTFOOD" height="70px" width="60px" fluid /></a>
+    <br></br>
+    <p>Fast Food</p>
+  </Col>
+    </Row>
     </EventOverlay>: null;
     return content;
 };
