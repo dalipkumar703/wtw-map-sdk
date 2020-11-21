@@ -9,6 +9,9 @@ export const ELECTRIC_CAR = 'ELECTRIC_CAR';
 export const ORGANIC_COSMETICS = 'ORGANIC_COSMETICS'
 export const ORGANIC_MEAT = 'ORGANIC_MEAT'
 export const GREEN_GIFT = 'GREEN_GIFT'
+export const ORGANIC_ICECREAM = 'ORGANIC_ICECREAM';
+export const ORGANIC_FASTFOOD = 'ORGANIC_FASTFOOD';
+
 
 export const organicVegetableIcon = new L.Icon({
     iconUrl: 'https://svgur.com/i/QJz.svg',
@@ -84,6 +87,27 @@ export const organicVegetableIcon = new L.Icon({
     // shadowSize: [25, 55],
     // shadowAnchor: [20, 92],
   })
+  export const organicIcecreamIcon = new L.Icon({
+    iconUrl: 'https://svgur.com/i/RfN.svg',
+    iconRetinaUrl: 'https://svgur.com/i/RfN.svg',
+    iconAnchor: [5, 55],
+    popupAnchor: [10, -44],
+    iconSize: [25, 55],
+    // shadowUrl: 'https://i.imgur.com/hwcpF3I.pngg',
+    // shadowSize: [25, 55],
+    // shadowAnchor: [20, 92],
+  })
+
+  export const organicFastFoodIcon = new L.Icon({
+    iconUrl: 'https://svgur.com/i/Reb.svg',
+    iconRetinaUrl: 'https://svgur.com/i/Reb.svg',
+    iconAnchor: [5, 55],
+    popupAnchor: [10, -44],
+    iconSize: [25, 55],
+    // shadowUrl: 'https://i.imgur.com/hwcpF3I.pngg',
+    // shadowSize: [25, 55],
+    // shadowAnchor: [20, 92],
+  })
  export const sustainableShopsConstant = [
     [[12.95826, 77.70677],['ECO_FRIENDLY_PRODUCTS']],
     [[28.46716, 77.08181],['ORGANIC_VEGETABLE']],
@@ -136,7 +160,7 @@ export const organicVegetableIcon = new L.Icon({
  [[28.57341,77.23563], ['GREEN_GIFT']],
  [[28.55670,77.23348], ['ECO_FRIENDLY_PRODUCTS']],
  [[28.46732,77.08169], ['ECO_FRIENDLY_PRODUCTS']],
- [[28.57994,77.32816], ['GREEN_GIFT']]
+ [[28.57994,77.32816], ['GREEN_GIFT']],
  [[12.97714,77.61727], ['ORGANIC_COSMETICS']],
  [[28.56077,77.25709], ['ORGANIC_FOOD']],
  [[23.02098,72.55470], ['ORGANIC_COSMETICS']],
@@ -160,7 +184,11 @@ export const organicVegetableIcon = new L.Icon({
  [[28.62490,77.09190], ['ORGANIC_FASTFOOD']],
  [[28.64672,77.30163], ['ORGANIC_FASTFOOD']],
  [[28.55880,77.27344], ['ORGANIC_ICECREAM']],
- [[19.00611,72.83100], ['ORGANIC_ICECREAM']]
+ [[19.00611,72.83100], ['ORGANIC_ICECREAM']],
+ [[28.52306,77.27678], ['ORGANIC_FOOD']],
+ [[28.57993,77.32816], ['GREEN_GIFT']],
+ [[28.69608,77.15277], ['ECO_FRIENDLY_PRODUCTS']],
+ [[28.6389,77.3775], ['ECO_FRIENDLY_PRODUCTS']]
 // [28.59147,77.06482],
 // [28.62116,77.21092],
 // [28.68944,77.17788],
@@ -195,6 +223,12 @@ export const getIcon= (iconName) => {
         
         case GREEN_GIFT:
           return sustainableGiftIcon;
+
+        case ORGANIC_FASTFOOD:
+          return organicFastFoodIcon;
+        
+        case ORGANIC_ICECREAM:
+          return organicIcecreamIcon;
             
         default:
             return organicVegetableIcon;
