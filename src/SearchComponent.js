@@ -15,7 +15,7 @@ const SearchComponent = ({onClick, isVisible}) => {
         <a  onClick={onClick}>        <Image src="https://svgur.com/i/Qei.svg" id="ORGANIC_COSMETICS" height="30px" width="30px" fluid />
 </a>
     <br></br>
-    <p>Cometics</p>
+    <p>Cosmetics</p>
   </Col>
   <Col xs={3} md={3}>
     {' '}
