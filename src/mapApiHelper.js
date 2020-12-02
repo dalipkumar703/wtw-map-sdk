@@ -25,3 +25,22 @@ const getLocationDetail=  (url) => {
         return {err: error};
     })
 }
+
+export const getDistanceBetweenNodes = async (pointA, pointB) => {
+    //open street map api for reverse coding
+    let url = `https://routing.openstreetmap.de/routed-bike/route/v1/driving/${pointA};${pointB}`;
+    //    return setTimeout(getLocationDetail(url), 1000);
+    await sleep(1000);
+    const result =  await getNavigationDetail(url);
+    console.log("result nodes",result);
+    return result && result.routes?.length > 0 && result.routes[0].distance;
+}
+
+const getNavigationDetail=  (url) => {
+    return axios.get(url).then((result)=>{
+    return result.data;            
+
+    }).catch((error)=>{
+        return {err: error};
+    })
+}
