@@ -7,7 +7,7 @@ import { InputSearch, Popover, List, Button,ListItem } from '@momentum-ui/react'
 import recycleShopConstant from './recycleShopConstant'
 import {sustainableShopsConstant, getIcon} from './sustainableShopConstant'
 import recycleShopsConstants from './recycleShopConstant'
-import {getLocationDetailByGeoCodes} from './mapApiHelper';
+import {getLocationDetailByGeoCodes, getDistanceBetweenNodes} from './mapApiHelper';
 import PopupComponent from './PopupComponent';
 import SearchComponent from './SearchComponent';
 import {filterShopsByType} from './sustainableShopConstant';
@@ -20,6 +20,7 @@ const App = () => {
   const [recycleShopEnable, setRecycleShopEnable] = useState(false);
   const [sustainableShopEnable, setSustainableShopEnable] = useState(false);
   const [searchListA, setSearchListA] = useState([]);
+  const [searching, setSearching] = useState(false);
   const [displayShops, setDisplayShops] = useState(false);
   const [currentLocation, setCurrentLocation] = useState(null);
   const [markersForSustainableShops, setMarkersForSustainableShops] = useState(null);
@@ -50,7 +51,7 @@ const handleSearchKeyDown = (e) => {
     let storageLength = localStorage.length;
     while (storageLength > 0){
      const result = localStorage.getItem(localStorage.key(storageLength - 1));
-     if (result && JSON.parse(result)?.display_name?.indexOf(e.target.innerText) > -1){
+     if (result && e.target.innerText.indexOf(JSON.parse(result)?.display_name) > -1){
       const displayContent = displayMarker(localStorage.key(storageLength -1 ).split("_"), e.target.id, result);
      
       setMarkersForDisplayShops(displayContent);
@@ -169,6 +170,7 @@ const searchListComponent = (
        <div>Click/Tick to view recyle or sustainable shops around you.</div>
       </Row>
       <Row>
+      {searching && "Searching ..."}     
       <Popover
           content={searchListComponent}
           // autoFocusOnFirstElt
@@ -184,7 +186,6 @@ const searchListComponent = (
           allowClickAway={false}
           // startOpen={searchListA.length > 0? true : false}
         >
-          
  <InputSearch
       clear
       htmlId='pillSearchInput'
@@ -195,22 +196,25 @@ const searchListComponent = (
     />
             </Popover>
             {clearButton && buttonComponent}
-                <SearchComponent isVisible={searchComponentVisibile} onClick={(e) => {
+                <SearchComponent isVisible={searchComponentVisibile} onClick={ (e) => {
     if (e.target.id){
+        const id = e.target.id;
         const geodata = filterShopsByType(e.target.id);
         const searchList = [];
-
-        forEach(geodata, (geoCoordinate) => {
+         forEach(geodata, async (geoCoordinate) => {
+           setSearching(true);
           const result = JSON.parse(localStorage.getItem(`${geoCoordinate[0][0]}_${geoCoordinate[0][1]}`));
           if (result){
-            searchList.push(<ListItem key={uniqueId()} id={e.target.id}>{`${result.display_name}`}</ListItem>)
+            const distance = currentLocation ? await getDistanceBetweenNodes(`${currentLocation[1]},${currentLocation[0]}`,`${geoCoordinate[0][1]},${geoCoordinate[0][0]}`) : null;
+          searchList.push(<ListItem key={uniqueId()} id={id}>{`${result.display_name}`}{distance ? ` ${(distance/1000).toFixed(2)} km`: ''}</ListItem>)
+          setSearchListA(searchList);
+          const activeElement = document.getElementById('pillSearchInput');
+          if (activeElement){
+            activeElement.focus();
           }
+        }
+        setSearching(false);
         })
-        setSearchListA(searchList);
-       const activeElement = document.getElementById('pillSearchInput');
-       if (activeElement){
-         activeElement.focus();
-       }
     }
 }}/>
      

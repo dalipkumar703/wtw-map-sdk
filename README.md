@@ -16,3 +16,6 @@ In the project directory, you can run:
 
 Api for OSM
 https://nominatim.org/release-docs/develop/api/Overview/
+
+Api for distance finding (OSRM)
+https://routing.openstreetmap.de/routed-bike/route/v1/driving/${pointA};${pointB}`
