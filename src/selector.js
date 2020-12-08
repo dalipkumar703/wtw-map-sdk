@@ -1,0 +1,1 @@
+export const selectCurrentLocation = (state) => state.mapReducer[0].currentLocation;

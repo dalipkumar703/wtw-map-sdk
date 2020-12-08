@@ -1,4 +1,4 @@
-import {ADD_TODO} from './constants';
+import {ADD_TODO, UPDATE_CURRENT_LOCATION} from './constants';
 //add to do bucket
 export const addTodo = (bucket) => {
   return {
@@ -7,3 +7,9 @@ export const addTodo = (bucket) => {
   }
 }
 
+export const updateCurrentLocation = (location) => {
+  return {
+    type: UPDATE_CURRENT_LOCATION,
+    currentLocation: location
+  }
+}
