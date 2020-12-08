@@ -1,28 +1,31 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {Map as LeafMap, Marker, Popup, TileLayer } from 'react-leaflet'
+import {useSelector, useDispatch} from 'react-redux';
 import {forEach, findIndex} from 'lodash'
 import {Form, Row, Col, Container} from 'react-bootstrap'
 import { InputSearch, Popover, List, Button,ListItem } from '@momentum-ui/react';
+import uniqueId from 'lodash/uniqueId';
 
-import recycleShopConstant from './recycleShopConstant'
+import {updateCurrentLocation} from './actions';
+import recycleShopConstant from './recycleShopConstant';
 import {sustainableShopsConstant, getIcon} from './sustainableShopConstant'
 import recycleShopsConstants from './recycleShopConstant'
 import {getLocationDetailByGeoCodes, getDistanceBetweenNodes} from './mapApiHelper';
 import PopupComponent from './PopupComponent';
 import SearchComponent from './SearchComponent';
 import {filterShopsByType} from './sustainableShopConstant';
-import uniqueId from 'lodash/uniqueId';
-
+// import {selectCurrentLocation} from './selector';
 
  const centerPosition = [28.62709, 77.05001];
 
 const App = () => {
+  const dispatch = useDispatch();
   const [recycleShopEnable, setRecycleShopEnable] = useState(false);
   const [sustainableShopEnable, setSustainableShopEnable] = useState(false);
   const [searchListA, setSearchListA] = useState([]);
   const [searching, setSearching] = useState(false);
   const [displayShops, setDisplayShops] = useState(false);
-  const [currentLocation, setCurrentLocation] = useState(null);
+  const currentLocation= useSelector((state) => state.mapReducer.currentLocation);
   const [markersForSustainableShops, setMarkersForSustainableShops] = useState(null);
   const [markersForDisplayShops, setMarkersForDisplayShops] = useState(null);
   const [searchComponentVisibile, setSearchComponentVisible] = useState(true);
@@ -109,7 +112,8 @@ const searchListComponent = (
       navigator.geolocation.getCurrentPosition(function(position) {
         console.log("Latitude is :", position.coords.latitude);
         console.log("Longitude is :", position.coords.longitude);
-        setCurrentLocation([position.coords.latitude, position.coords.longitude])
+        // setCurrentLocation([position.coords.latitude, position.coords.longitude])
+        dispatch(updateCurrentLocation([position.coords.latitude, position.coords.longitude]));
       });
     }
     forEach(sustainableShopsConstant, async (position) => {
