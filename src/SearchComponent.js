@@ -9,7 +9,7 @@ const SearchComponent = ({onClick, isVisible}) => {
     style={{marginTop: '40px'}}
     allowClickAway={false}
     >
-      <Container>
+      <Container style={{height: '180px', overflowY: 'scroll'}}>
 <Row>
     <Col xs={3} md={3}>
         <a  onClick={onClick}>        <Image src="https://svgur.com/i/Qei.svg" id="ORGANIC_COSMETICS" height="30px" width="30px" fluid />
@@ -63,7 +63,33 @@ const SearchComponent = ({onClick, isVisible}) => {
     <p>Fast Food</p>
   </Col>
     </Row>
+    <Row>
    
+  <Col xs={3} md={3}>
+    {' '}
+    <a  onClick={onClick}>   <Image src="https://svgur.com/i/SBF.svg" id="SUSTAINABLE_SUPERMARKET" height="30px" width="30px" fluid /></a>
+    <br></br>
+    <p>Supermarket</p>
+  </Col>
+  <Col xs={3} md={3}>
+    {' '}
+    <a  onClick={onClick}>     <Image src="https://svgur.com/i/SAv.svg" id="SUSTAINABLE_CLOTH_STORE" height="40px" width="40px" fluid /></a>
+    <br></br>
+    <p>Cloth</p>
+  </Col>
+  {/* <Col xs={3} md={3}>
+    {' '}
+    <a  onClick={onClick}>   <Image src="https://svgur.com/i/RfN.svg" id="ORGANIC_ICECREAM" height="60px" width="60px" fluid /></a>
+    <br></br>
+    <p>Icecream</p>
+  </Col>
+  <Col xs={3} md={3}>
+    {' '}
+    <a  onClick={onClick}>   <Image src="https://svgur.com/i/Reb.svg" id="ORGANIC_FASTFOOD" height="70px" width="60px" fluid /></a>
+    <br></br>
+    <p>Fast Food</p>
+  </Col> */}
+    </Row>
     </Container>
     </EventOverlay>
     : null;
