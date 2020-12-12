@@ -1,7 +1,7 @@
 import React, {useState, useEffect, useRef} from 'react'
 import {Map as LeafMap, Marker, Popup, TileLayer } from 'react-leaflet'
 import {useSelector, useDispatch} from 'react-redux';
-import {forEach, findIndex} from 'lodash'
+import {forEach, findIndex, sortBy} from 'lodash'
 import {Form, Row, Col, Container} from 'react-bootstrap'
 import { InputSearch, Popover, List, Button,ListItem } from '@momentum-ui/react';
 import uniqueId from 'lodash/uniqueId';
@@ -49,6 +49,36 @@ const displayMarker = (pos, type, result) => (
          <PopupComponent shopDetailParser={JSON.parse(result)} />
         </Marker>
 );
+
+const getNearShopsList = (geodata, searchList, id) => {
+ let promises = [];
+  forEach(geodata,  (geoCoordinate) => {
+   const result = JSON.parse(localStorage.getItem(`${geoCoordinate[0][0]}_${geoCoordinate[0][1]}`));
+   if (result && currentLocation){
+     promises.push(getDistanceBetweenNodes(`${currentLocation[1]},${currentLocation[0]}`,`${geoCoordinate[0][1]},${geoCoordinate[0][0]}`, result.display_name));
+     
+   // setSearchListA(searchList);
+   // const activeElement = document.getElementById('pillSearchInput');
+   // if (activeElement){
+   //   activeElement.focus();
+   // }
+ }
+ })
+ Promise.all(promises).then((data)=>{
+   console.log("promise resolve:",data);
+  const newData = sortBy(data,[(eachObject)=>{return eachObject.distance}]);
+  forEach((newData), (eachObject)=>{
+    searchList.push(<ListItem key={uniqueId()} id={id} data-distance={eachObject.distance}>{`${eachObject.displayName}`}{eachObject.distance ? ` ${(eachObject.distance/1000).toFixed(2)} km`: ''}</ListItem>);
+  }) 
+  setSearching(false);
+  setSearchListA(searchList);
+  const activeElement = document.getElementById('pillSearchInput');
+  if (activeElement){
+    activeElement.focus();
+  }
+ })
+
+}
 const handleSearchKeyDown = (e) => {
   if (e.target.innerText || e.keyCode === 13){
     let storageLength = localStorage.length;
@@ -200,25 +230,15 @@ const searchListComponent = (
     />
             </Popover>
             {clearButton && buttonComponent}
-                <SearchComponent isVisible={searchComponentVisibile} onClick={ (e) => {
+                <SearchComponent isVisible={searchComponentVisibile} onClick={async (e) => {
     if (e.target.id){
         const id = e.target.id;
         const geodata = filterShopsByType(e.target.id);
         const searchList = [];
-         forEach(geodata, async (geoCoordinate) => {
-           setSearching(true);
-          const result = JSON.parse(localStorage.getItem(`${geoCoordinate[0][0]}_${geoCoordinate[0][1]}`));
-          if (result){
-            const distance = currentLocation ? await getDistanceBetweenNodes(`${currentLocation[1]},${currentLocation[0]}`,`${geoCoordinate[0][1]},${geoCoordinate[0][0]}`) : null;
-          searchList.push(<ListItem key={uniqueId()} id={id}>{`${result.display_name}`}{distance ? ` ${(distance/1000).toFixed(2)} km`: ''}</ListItem>)
-          setSearchListA(searchList);
-          const activeElement = document.getElementById('pillSearchInput');
-          if (activeElement){
-            activeElement.focus();
-          }
-        }
-        setSearching(false);
-        })
+        //get nearer shop array
+        setSearching(true);
+        await getNearShopsList(geodata, searchList, id);
+       
     }
 }}/>
      

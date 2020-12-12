@@ -26,14 +26,14 @@ const getLocationDetail=  (url) => {
     })
 }
 
-export const getDistanceBetweenNodes = async (pointA, pointB) => {
+export const getDistanceBetweenNodes = async (pointA, pointB, displayName) => {
     //open street map api for reverse coding
     let url = `https://routing.openstreetmap.de/routed-bike/route/v1/driving/${pointA};${pointB}`;
     //    return setTimeout(getLocationDetail(url), 1000);
     await sleep(1000);
     const result =  await getNavigationDetail(url);
     console.log("result nodes",result);
-    return result && result.routes?.length > 0 && result.routes[0].distance;
+    return Promise.resolve(result && result.routes?.length > 0 && {distance: result.routes[0].distance, displayName: displayName});
 }
 
 const getNavigationDetail=  (url) => {
