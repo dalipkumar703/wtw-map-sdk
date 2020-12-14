@@ -92,6 +92,7 @@ const handleSearchKeyDown = (e) => {
      
       setMarkersForDisplayShops(displayContent);
       setDisplayShops(true);
+      setSearchListA([]);
     }
     storageLength = storageLength - 1;
     }
@@ -122,6 +123,7 @@ const buttonComponent = (
 );
 const searchListComponent = (
      <List onClick={(e) => {
+       //dead code
   if (e.target.value && e.keyCode === 13){
     let storageLength = localStorage.length;
     while (storageLength > 0){
@@ -212,7 +214,7 @@ const searchListComponent = (
           content={searchListComponent}
           // autoFocusOnFirstElt
           showArrow={false}
-          popoverTrigger={'MouseEnter'}
+          popoverTrigger={'Click'}
           direction={'right-center'}
           style={{marginTop: '50px', zIndex: 1085}}
           // onKeyDown={handleKeyDown}
