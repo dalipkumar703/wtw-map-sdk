@@ -62,6 +62,9 @@ const getNearShopsList = (geodata, searchList, id) => {
    // if (activeElement){
    //   activeElement.focus();
    // }
+ } else if (result && !currentLocation){
+  searchList.push(<ListItem key={uniqueId()} id={id}>{`${result.display_name}`}</ListItem>)
+
  }
  })
  Promise.all(promises).then((data)=>{
