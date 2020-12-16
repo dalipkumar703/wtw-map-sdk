@@ -339,8 +339,8 @@ export const organicVegetableIcon = new L.Icon({
  [[19.11888,72.90512],['SUSTAINABLE_CLOTH_STORE']],
  [[19.05540,72.83134],['SUSTAINABLE_CLOTH_STORE']],
  [[19.12285,72.86838],['SUSTAINABLE_CLOTH_STORE']],
- [[28.42029,77.09709],['SUSTAINABLE_CLOTH_STORE']],
- [[28.55552,77.08513],['SUSTAINABLE_CLOTH_STORE']],
+ [[28.42028,77.09710],['SUSTAINABLE_CLOTH_STORE']],
+ [[28.55551,77.08513],['SUSTAINABLE_CLOTH_STORE']],
  [[41.57005,-93.80530],['SUSTAINABLE_CLOTH_STORE']],
  [[37.65659,-77.61944],['SUSTAINABLE_CLOTH_STORE']],
  [[40.00670,-83.05356],['SUSTAINABLE_CLOTH_STORE']],
@@ -435,7 +435,7 @@ export const getIcon= (iconName) => {
 
         case  SUSTAINABLE_SUPERMARKET:
           return sustainableSupermarketIcon;
-           
+
         default:
             return organicVegetableIcon;
     }
