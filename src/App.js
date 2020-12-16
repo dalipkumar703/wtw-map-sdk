@@ -70,8 +70,12 @@ const getNearShopsList = (geodata, searchList, id) => {
  Promise.all(promises).then((data)=>{
    console.log("promise resolve:",data);
   const newData = sortBy(data,[(eachObject)=>{return eachObject.distance}]);
+  let itemSize = 1;
   forEach((newData), (eachObject)=>{
-    searchList.push(<ListItem key={uniqueId()} id={id} data-distance={eachObject.distance}>{`${eachObject.displayName}`}{eachObject.distance ? ` ${(eachObject.distance/1000).toFixed(2)} km`: ''}</ListItem>);
+    if (eachObject.displayName){
+      itemSize = itemSize + 1;
+      searchList.push(<ListItem key={uniqueId()} id={id} data-distance={eachObject.distance}>{`${eachObject.displayName}`}{eachObject.distance ? ` ${(eachObject.distance/1000).toFixed(2)} km`: ''}</ListItem>);
+    }
   }) 
   setSearching(false);
   setSearchListA(searchList);
@@ -151,19 +155,42 @@ const searchListComponent = (
         dispatch(updateCurrentLocation([position.coords.latitude, position.coords.longitude]));
       });
     }
-    forEach(sustainableShopsConstant, async (position) => {
-        let keys = Object.keys(localStorage);
-        if (findIndex(keys, (key)=> key === `${position[0][0]}_${position[0][1]}`) < 0){
-          const result = await getLocationDetailByGeoCodes(position[0][0], position[0][1]);
-        if (result && result.name && result.display_name && !result.err) {
-          shopDetailsMap.set(`${position[0][0]}_${position[0][1]}`, result);
-          localStorage.setItem(`${position[0][0]}_${position[0][1]}`, JSON.stringify(result));
-        } else {
-          console.log("error fetching details");
-      }
-        }
+    
+    // forEach(sustainableShopsConstant, async (position) => {
+    //     let keys = Object.keys(localStorage);
+    //     if (findIndex(keys, (key)=> key === `${position[0][0]}_${position[0][1]}`) < 0){
+    //       const result = await getLocationDetailByGeoCodes(position[0][0], position[0][1]);
+    //     if (result && result.name && result.display_name && !result.err) {
+    //       shopDetailsMap.set(`${position[0][0]}_${position[0][1]}`, result);
+    //       localStorage.setItem(`${position[0][0]}_${position[0][1]}`, JSON.stringify(result));
+    //     } else {
+    //       console.log("error fetching details");
+    //   }
+    //     }
         
-    })
+    // })
+
+    //new logic for sustainableshop data fetch
+    
+      let p = Promise.resolve(); // Q() in q
+
+      forEach(sustainableShopsConstant, (position) => {
+        p = p.then(() =>  {
+          return getLocationDetailByGeoCodes(position[0][0], position[0][1]);
+      //   if (findIndex(keys, (key)=> key === `${position[0][0]}_${position[0][1]}`) < 0){
+      //  const result = await getLocationDetailByGeoCodes(position[0][0], position[0][1]);
+      //   if (result && result.name && result.display_name && !result.err) {
+      //     shopDetailsMap.set(`${position[0][0]}_${position[0][1]}`, result);
+      //     localStorage.setItem(`${position[0][0]}_${position[0][1]}`, JSON.stringify(result));
+      //   } else {
+      //     console.log("error fetching details");
+      // }
+      //   }
+        });
+      }
+      );
+      return p;
+    
    
   },[])
 
