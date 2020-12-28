@@ -77,6 +77,13 @@ const SearchComponent = ({onClick, isVisible}) => {
     <br></br>
     <p>Cloth</p>
   </Col>
+
+  <Col xs={3} md={3}>
+    {' '}
+    <a  onClick={onClick}>     <Image src="https://svgur.com/i/Sfz.svg" id="SUSTAINABLE_BABY_STORE" height="40px" width="40px" fluid /></a>
+    <br></br>
+    <p>Baby Care</p>
+  </Col>
   {/* <Col xs={3} md={3}>
     {' '}
     <a  onClick={onClick}>   <Image src="https://svgur.com/i/RfN.svg" id="ORGANIC_ICECREAM" height="60px" width="60px" fluid /></a>
