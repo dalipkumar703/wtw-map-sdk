@@ -30,6 +30,8 @@ const App = () => {
   const [markersForDisplayShops, setMarkersForDisplayShops] = useState(null);
   const [searchComponentVisibile, setSearchComponentVisible] = useState(true);
   const [clearButton, setClearButton] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [enableSearchResult, setEnableSearchResult] = useState(true);
   const markerMapRef = useRef();
   let markersForRecycleShops = [];
   const shopDetailsMap = new Map();
@@ -87,6 +89,7 @@ const getNearShopsList = (geodata, searchList, id) => {
 
 }
 const handleSearchKeyDown = (e) => {
+  
   if (e.target.innerText || e.keyCode === 13){
     let storageLength = localStorage.length;
     while (storageLength > 0){
@@ -96,7 +99,7 @@ const handleSearchKeyDown = (e) => {
      
       setMarkersForDisplayShops(displayContent);
       setDisplayShops(true);
-      setSearchListA([]);
+      setEnableSearchResult(false);
     }
     storageLength = storageLength - 1;
     }
@@ -112,7 +115,7 @@ useEffect(()=>{
   if (searchListA.length > 0){
     setSearchComponentVisible(false);
     setClearButton(true);
-  }
+  } 
 }, [searchListA])
 const buttonComponent = (
   <Button
@@ -126,7 +129,7 @@ const buttonComponent = (
 />
 );
 const searchListComponent = (
-     <List onClick={(e) => {
+    enableSearchResult?  <List onClick={(e) => {
        //dead code
   if (e.target.value && e.keyCode === 13){
     let storageLength = localStorage.length;
@@ -143,54 +146,59 @@ const searchListComponent = (
   }
 }}>
       {searchListA}
-    </List>
+    </List>: <div></div>
    
   );
-  useEffect(()=>{
-    if ('geolocation' in navigator){
-      navigator.geolocation.getCurrentPosition(function(position) {
-        console.log("Latitude is :", position.coords.latitude);
-        console.log("Longitude is :", position.coords.longitude);
-        // setCurrentLocation([position.coords.latitude, position.coords.longitude])
-        dispatch(updateCurrentLocation([position.coords.latitude, position.coords.longitude]));
-      });
-    }
-    
-    // forEach(sustainableShopsConstant, async (position) => {
-    //     let keys = Object.keys(localStorage);
-    //     if (findIndex(keys, (key)=> key === `${position[0][0]}_${position[0][1]}`) < 0){
-    //       const result = await getLocationDetailByGeoCodes(position[0][0], position[0][1]);
-    //     if (result && result.name && result.display_name && !result.err) {
-    //       shopDetailsMap.set(`${position[0][0]}_${position[0][1]}`, result);
-    //       localStorage.setItem(`${position[0][0]}_${position[0][1]}`, JSON.stringify(result));
-    //     } else {
-    //       console.log("error fetching details");
-    //   }
-    //     }
-        
-    // })
-
-    //new logic for sustainableshop data fetch
-    
-      let p = Promise.resolve(); // Q() in q
-
-      forEach(sustainableShopsConstant, (position) => {
-        p = p.then(() =>  {
-          return getLocationDetailByGeoCodes(position[0][0], position[0][1]);
-      //   if (findIndex(keys, (key)=> key === `${position[0][0]}_${position[0][1]}`) < 0){
-      //  const result = await getLocationDetailByGeoCodes(position[0][0], position[0][1]);
-      //   if (result && result.name && result.display_name && !result.err) {
-      //     shopDetailsMap.set(`${position[0][0]}_${position[0][1]}`, result);
-      //     localStorage.setItem(`${position[0][0]}_${position[0][1]}`, JSON.stringify(result));
-      //   } else {
-      //     console.log("error fetching details");
-      // }
-      //   }
+  useEffect(async ()=>{
+    const fetchdata = async () => {
+      if ('geolocation' in navigator){
+        navigator.geolocation.getCurrentPosition(function(position) {
+          console.log("Latitude is :", position.coords.latitude);
+          console.log("Longitude is :", position.coords.longitude);
+          // setCurrentLocation([position.coords.latitude, position.coords.longitude])
+          dispatch(updateCurrentLocation([position.coords.latitude, position.coords.longitude]));
         });
       }
-      );
-      return p;
-    
+      
+      // forEach(sustainableShopsConstant, async (position) => {
+      //     let keys = Object.keys(localStorage);
+      //     if (findIndex(keys, (key)=> key === `${position[0][0]}_${position[0][1]}`) < 0){
+      //       const result = await getLocationDetailByGeoCodes(position[0][0], position[0][1]);
+      //     if (result && result.name && result.display_name && !result.err) {
+      //       shopDetailsMap.set(`${position[0][0]}_${position[0][1]}`, result);
+      //       localStorage.setItem(`${position[0][0]}_${position[0][1]}`, JSON.stringify(result));
+      //     } else {
+      //       console.log("error fetching details");
+      //   }
+      //     }
+          
+      // })
+  
+      //new logic for sustainableshop data fetch
+        setIsLoading(true);
+        let p = Promise.resolve(); // Q() in q
+  
+        forEach(sustainableShopsConstant, (position) => {
+          p = p.then(() =>  {
+            return getLocationDetailByGeoCodes(position[0][0], position[0][1]);
+        //   if (findIndex(keys, (key)=> key === `${position[0][0]}_${position[0][1]}`) < 0){
+        //  const result = await getLocationDetailByGeoCodes(position[0][0], position[0][1]);
+        //   if (result && result.name && result.display_name && !result.err) {
+        //     shopDetailsMap.set(`${position[0][0]}_${position[0][1]}`, result);
+        //     localStorage.setItem(`${position[0][0]}_${position[0][1]}`, JSON.stringify(result));
+        //   } else {
+        //     console.log("error fetching details");
+        // }
+        //   }
+          });
+        }
+        );
+        return p;
+    }
+   
+   await fetchdata();
+   setIsLoading(false);
+
    
   },[])
 
@@ -233,7 +241,7 @@ const searchListComponent = (
     <Container>
     <Form>
       <Row>
-       <div>Click/Tick to view recyle or sustainable shops around you.</div>
+  <div>{isLoading? 'Loading App data ...':''}Click/Tick to view recyle or sustainable shops around you.</div>
       </Row>
       <Row>
       {searching && "Searching ..."}     
@@ -259,6 +267,11 @@ const searchListComponent = (
       name='pillSearchInput'
       shape='pill'
       className={{padding: '5px'}}
+      onClick={()=>{
+        if (!enableSearchResult){
+          setEnableSearchResult(true);
+        }
+      }}
     />
             </Popover>
             {clearButton && buttonComponent}
