@@ -144,7 +144,7 @@ const searchListComponent = (
     }
     }
   }
-}}>
+}}  style={{maxHeight: '700px', overflowY: 'scroll'}}>
       {searchListA}
     </List>: <div></div>
    
@@ -156,7 +156,11 @@ const searchListComponent = (
           console.log("Latitude is :", position.coords.latitude);
           console.log("Longitude is :", position.coords.longitude);
           // setCurrentLocation([position.coords.latitude, position.coords.longitude])
-          dispatch(updateCurrentLocation([position.coords.latitude, position.coords.longitude]));
+          if (position.coords.latitude && position.coords.longitude){
+            dispatch(updateCurrentLocation([position.coords.latitude, position.coords.longitude]));
+          }
+        }, (error)=>{
+          console.log("error", error);
         });
       }
       
@@ -201,6 +205,18 @@ const searchListComponent = (
 
    
   },[])
+
+  const onClickSearchComponent = async (e) => {
+    if (e.target.id){
+        const id = e.target.id;
+        const geodata = filterShopsByType(e.target.id);
+        const searchList = [];
+        //get nearer shop array
+        setSearching(true);
+        await getNearShopsList(geodata, searchList, id);
+       
+    }
+};
 
   const handleOnClickSustainbleShop = (event) =>{
     let temp = [];
@@ -275,17 +291,7 @@ const searchListComponent = (
     />
             </Popover>
             {clearButton && buttonComponent}
-                <SearchComponent isVisible={searchComponentVisibile} onClick={async (e) => {
-    if (e.target.id){
-        const id = e.target.id;
-        const geodata = filterShopsByType(e.target.id);
-        const searchList = [];
-        //get nearer shop array
-        setSearching(true);
-        await getNearShopsList(geodata, searchList, id);
-       
-    }
-}}/>
+                <SearchComponent isVisible={searchComponentVisibile} onClick={onClickSearchComponent}/>
      
         <Col><Form.Check type="checkbox">
         <Form.Check.Input onClick={handleOnClickSustainbleShop} type="checkbox" isValid />
