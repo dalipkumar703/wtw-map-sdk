@@ -60,7 +60,7 @@ const SearchComponent = ({onClick, isVisible}) => {
     {' '}
     <a  onClick={onClick}>   <Image src="https://svgur.com/i/Reb.svg" id="ORGANIC_FASTFOOD" height="70px" width="60px" fluid /></a>
     <br></br>
-    <p>Fast Food</p>
+    <p>Fast Food Cafe</p>
   </Col>
     </Row>
     <Row>
